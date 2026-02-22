@@ -213,7 +213,7 @@ def convert_user_data(
         full_name = author.get("nickname") or author["name"]
         short_name = author["name"]
 
-        email_username = short_name
+        email_username = short_name.replace(' ', '_')
         if email_username.startswith('.'):
             email_username = email_username[1:]
 
