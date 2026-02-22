@@ -213,10 +213,17 @@ def convert_user_data(
         full_name = author.get("nickname") or author["name"]
         short_name = author["name"]
 
+        email_username = short_name
+        if email_username.startswith('.'):
+            email_username = email_username[1:]
+
+        if email_username.endswith('.'):
+            email_username = email_username[:-1]
+
         # Generate a synthetic email, ensuring uniqueness.
-        email = f"{short_name}@{domain_name}"
+        email = f"{email_username}@{domain_name}"
         if email in used_emails:
-            email = f"{short_name}_{discord_user_id}@{domain_name}"
+            email = f"{email_username}_{discord_user_id}@{domain_name}"
         used_emails.add(email)
 
         is_bot = author.get("isBot", False)
