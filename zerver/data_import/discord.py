@@ -145,7 +145,7 @@ def collect_metadata(json_files: list[str]) -> DiscordExportMetadata:
                 guild_icon_url = guild["iconUrl"]
 
         # Build channel_id_to_name for guild text/voice channels.
-        if channel["type"] in ("GuildTextChat", "GuildVoiceChat"):
+        if channel["type"] in ("GuildTextChat", "GuildVoiceChat", "GuildNews"):
             channel_id_to_name[channel["id"]] = channel["name"]
 
         # Build thread topic map.
@@ -289,7 +289,7 @@ def convert_channel_data(
         seen_channel_ids.add(channel_id)
 
         # GuildTextChat and GuildVoiceChat both become streams.
-        if channel_type not in ("GuildTextChat", "GuildVoiceChat"):
+        if channel_type not in ("GuildTextChat", "GuildVoiceChat", "GuildNews"):
             continue
 
         stream_id = stream_id_mapper.get(channel_id)
@@ -404,7 +404,7 @@ def get_message_recipient_id(
         recipient_id = stream_id_to_recipient_id[stream_id]
         return recipient_id, False, thread_name
 
-    if channel_type in ("GuildTextChat", "GuildVoiceChat"):
+    if channel_type in ("GuildTextChat", "GuildVoiceChat", "GuildNews"):
         stream_id = stream_id_mapper.get(channel_id)
         recipient_id = stream_id_to_recipient_id[stream_id]
         return recipient_id, False, "imported from Discord"
